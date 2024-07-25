@@ -30,9 +30,17 @@ class database{
 
     public:
         void connect(){
+            try{
             mysqlx::Session sess(host, 33060, username, password);
             mysqlx::Schema db = sess.getSchema(database);
-
+            sess.close();
+                } catch (const mysqlx::Error &err) {
+            std::cerr << "Error: " << err.what() << std::endl;
+        } catch (std::exception &ex) {
+            std::cerr << "STD Exception: " << ex.what() << std::endl;
+        } catch (...) {
+            std::cerr << "Unexpected error!" << std::endl;
+        }
         }
 
         
