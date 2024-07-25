@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "xdevapi.h"
+#include "config.hpp"
 
 class database{
     public:
