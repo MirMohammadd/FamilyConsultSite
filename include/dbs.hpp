@@ -3,6 +3,7 @@
 
 #include <sqlite3.h>
 #include <iostream>
+#include <vector>
 #include "exceptions.hpp"
 #include "config.hpp"
 
@@ -14,6 +15,7 @@ class Database{
         sqlite3* db;
         char * errMsg = 0;
         std::string dbsPath  = PATH;
+        std::vector<std::string> columnsByUser;
 
     private:
         void getDbsInfo(){
@@ -66,17 +68,65 @@ class Database{
 
         }
 
-        void createTable(std::string table,int colNumbers){
-            connect();
-            for (int i =0 ; i < colNumbers;i++){
+    void createTable(const std::string& table, int colNumbers, bool autoFill) {
+        connect(); // Ensure this method connects to the SQLite database and sets `db`
+
+        if (!autoFill) {
+            std::vector<std::string> columnsByUser; // Vector to store column definitions
+
+            // Collect column names and types
+            for (int i = 0; i < colNumbers; i++) {
                 std::string colName;
+                std::cout << "Enter column name: ";
+                std::cin >> colName;
+
+                std::string colType;
+                std::cout << "Enter column type: ";
+                std::cin >> colType;
+
+                // Add column definition to the vector
+                columnsByUser.push_back(colName + " " + colType);
             }
+
+            // Build the SQL command
+            std::string sqlStatement = "CREATE TABLE IF NOT EXISTS " + table + " (";
+            for (size_t i = 0; i < columnsByUser.size(); ++i) {
+                sqlStatement += columnsByUser[i];
+                if (i < columnsByUser.size() - 1) {
+                    sqlStatement += ", ";
+                }
+            }
+            sqlStatement += ");";
+
+            // Confirm before executing
+            std::cout << "Executing: " << sqlStatement << "\nDo you confirm? Enter 1 to confirm: ";
+            int confirm;
+            std::cin >> confirm;
+            if (confirm == 1) {
+                char* errMsg = nullptr;
+                int rc = sqlite3_exec(db, sqlStatement.c_str(), 0, 0, &errMsg);
+                if (rc != SQLITE_OK) {
+                    std::cerr << "SQL error: " << errMsg << std::endl;
+                    sqlite3_free(errMsg);
+                } else {
+                    std::cout << "Table created successfully." << std::endl;
+                }
+            } else {
+                std::cout << "Table creation cancelled." << std::endl;
+            }
+        } else {
+            // AutoFill case
             std::string sqlCreateTable = "CREATE TABLE IF NOT EXISTS " + table + " (id INTEGER PRIMARY KEY, name TEXT);";
-            rc = sqlite3_exec(db, sqlCreateTable.c_str(), 0, 0, &errMsg);
+            char* errMsg = nullptr;
+            int rc = sqlite3_exec(db, sqlCreateTable.c_str(), 0, 0, &errMsg);
+            if (rc != SQLITE_OK) {
+                std::cerr << "SQL error: " << errMsg << std::endl;
+                sqlite3_free(errMsg);
+            } else {
+                std::cout << "Table created successfully." << std::endl;
+            }
         }
-
-
+    }
 };
-
 
 #endif

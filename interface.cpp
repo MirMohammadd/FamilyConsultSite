@@ -13,7 +13,7 @@ void sqliteEnter(){
 
 int main() {
     Database interface;
-    interface.createTable("users");
+    interface.createTable("user",2,false);
     #ifdef SQLITE
     sqliteEnter();
     #endif  
