@@ -1,30 +1,27 @@
-# Variables
-CXX = g++
-CXXFLAGS = -std=c++11
-INCLUDES = -I include \
-           -I/opt/homebrew/Cellar/mysql-connector-c++/8.3.0/include
-LDFLAGS = -L/opt/homebrew/Cellar/mysql-connector-c++/8.3.0/lib \
-          -lmysqlcppconn8.2.8.3.0
+# Makefile
 
-# Target executable
+# The C++ compiler
+CXX = g++
+
+# Compilation flags
+CXXFLAGS = -std=c++11 -Wall -I/usr/include
+
+# Linker flags for SQLite3
+LDFLAGS = -lsqlite3
+
+# The source file
+SRCS = interface.cpp
+
+# The output executable
 TARGET = interface
 
-# Source files
-SRC = interface.cpp
-
-# Object files
-OBJ = $(SRC:.cpp=.o)
-
-# Default rule to build the target
+# Default target
 all: $(TARGET)
 
-$(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJ) $(LDFLAGS)
+# Build the target
+$(TARGET): $(SRCS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS) $(LDFLAGS)
 
-# Rule to compile source files into object files
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
-
-# Clean rule to remove generated files
+# Clean up
 clean:
-	rm -f $(TARGET) $(OBJ)
+	rm -f $(TARGET)
