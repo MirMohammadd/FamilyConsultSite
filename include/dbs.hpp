@@ -4,6 +4,7 @@
 #include <sqlite3.h>
 #include <iostream>
 #include "exceptions.hpp"
+#include "config.hpp"
 
 class Database{
 
@@ -12,14 +13,11 @@ class Database{
         int rc;
         sqlite3* db;
         char * errMsg = 0;
-        std::string dbsPath  = "/Applications/MAMP/db/sqlite";
+        std::string dbsPath  = PATH;
 
     private:
         void getDbsInfo(){
-            std::cout << "dbsName (with .db): ";
-            std::cin >> dbs;
-            dbsPath += dbs;
-            std::cout<< "Database path:"<<dbsPath;
+            return;
         }
     
     public:
@@ -34,10 +32,8 @@ class Database{
                 throw DBSOpeningExc();
             }
         }
-};
 
-namespace DBS{
-    inline int chooseOptions(){
+        int chooseOptions(){
         int result;
         std::cout << "Choose option: " << std::endl;
         std::cout << "1. Create table" << std::endl;
@@ -66,7 +62,16 @@ namespace DBS{
                 return -1;
         }
 
-    }
-}
+
+        }
+
+        void createTable(){
+            connect();
+            const char* sqlCreateTable = "CREATE TABLE IF NOT EXISTS items(id INTEGER PRIMARY KEY, name TEXT);";
+            rc = sqlite3_exec(db, sqlCreateTable, 0, 0, &errMsg);
+        }
+
+};
+
 
 #endif
