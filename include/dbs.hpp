@@ -160,6 +160,31 @@ class Database{
         sqlite3_close(db);
         }
 
+ 
+    void fetch() {
+        connect();
+        std::string statement = "SELECT * FROM ";
+        std::string table;
+        std::cout << "Enter the table name you want to retrieve: ";
+        std::getline(std::cin, table);
+        statement += table;
+        statement += ";";
+
+        sqlite3_stmt* stmt;
+        int rc = sqlite3_prepare_v2(db, statement.c_str(), -1, &stmt, 0);
+
+        if (rc != SQLITE_OK) {
+            std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+        } else {
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                int id = sqlite3_column_int(stmt, 0);
+                const unsigned char* name = sqlite3_column_text(stmt, 1);
+                std::cout << "id: " << id << " / name: " << name << std::endl;
+            }
+            sqlite3_finalize(stmt);
+        }
+    }
+
 };
 
 #endif

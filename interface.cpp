@@ -23,6 +23,10 @@ int main(int argc,char* argv[]) {
         if (strcmp("--auto",argv[i]) == 0){
             interface.setStatementManually();
         }
+
+        if (strcmp("--fetch",argv[i]) == 0){
+            interface.fetch();
+        }
     }
 
     #ifdef SQLITE
@@ -67,7 +71,7 @@ int main(int argc,char* argv[]) {
 
     sqlite3_int64 lastRowId = sqlite3_last_insert_rowid(db);
     std::cout << "The last inserted row ID is " << lastRowId << "." << std::endl;
-
+    #ifdef MORE_FETCH   
     const char* sqlSelect = "SELECT * FROM items;";
     sqlite3_stmt* stmt;
     rc = sqlite3_prepare_v2(db, sqlSelect, -1, &stmt, 0);
@@ -82,6 +86,7 @@ int main(int argc,char* argv[]) {
         }
         sqlite3_finalize(stmt);
     }
+    #endif
 
     #ifdef DELETE_INSERTED  
 
