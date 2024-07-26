@@ -94,7 +94,9 @@ int main(int argc,char* argv[]) {
         sqlite3_free(errMsg);
     } else {
         int changes = sqlite3_changes(db);
+        #ifdef DELETE_INSERTED
         std::cout << "The DELETE statement removed " << changes << " rows." << std::endl;
+        #endif
     }
 
     sqlite3_close(db);
