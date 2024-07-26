@@ -11,6 +11,7 @@ public:
     std::string password;
     std::string host;
     std::string dbName;
+    int port;
 
 private:
     void getDbsInfo() {
@@ -25,6 +26,9 @@ private:
 
         std::cout << "Database: ";
         std::cin >> dbName;
+
+        std::cout << "Port: ";
+        std::cin >> port;
     }
 
 public:
