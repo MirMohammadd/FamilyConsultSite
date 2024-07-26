@@ -10,6 +10,13 @@ make
 ./interface
 ```
 
+
+# Giving explicit statement to sqlite DBMS 
+
+```
+./interface --auto
+```
+
 # Screenshots 
 
 
