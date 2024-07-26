@@ -4,7 +4,7 @@
 
 int main() {
         Database dbs;
-        dbs.getInfo();
+        dbs.connect();
     return 0;
     
 }

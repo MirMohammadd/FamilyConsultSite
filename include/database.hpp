@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <xdevapi.h>  // Make sure this is the correct path for your MySQL Connector/C++ header
-#include "config.hpp" // If you have specific configurations
 
 class Database {
 public:
@@ -11,33 +10,28 @@ public:
     std::string password;
     std::string host;
     std::string dbName;
+    std::string unixSocket;
     int port;
+    bool raiseOnWarnings;
 
-private:
-    void getDbsInfo() {
-        std::cout << "Username: ";
-        std::cin >> username;
+    // Constructor to initialize the database configuration
+    Database() : 
+        username("root"),
+        password("root"),
+        host("localhost"),
+        dbName("mydatabase"),
+        unixSocket("/Applications/MAMP/tmp/mysql/mysql.sock"),
+        port(3306),  // Default MySQL port
+        raiseOnWarnings(true)
+    {}
 
-        std::cout << "Password: ";
-        std::cin >> password;
-
-        std::cout << "Host: ";
-        std::cin >> host;
-
-        std::cout << "Database: ";
-        std::cin >> dbName;
-
-        std::cout << "Port: ";
-        std::cin >> port;
-    }
-
-public:
     void connect() {
         try {
-            getDbsInfo();
-
-            // Establish the session
+            // Establish the session using unixSocket for UNIX socket connections
             mysqlx::Session sess(host, port, username, password);
+
+            // If using UNIX socket
+            // mysqlx::Session sess(mysqlx::Socket(unixSocket), username, password);
 
             // Select the schema (database)
             mysqlx::Schema db = sess.getSchema(dbName);
@@ -60,11 +54,6 @@ public:
             std::cerr << "Unexpected error!" << std::endl;
         }
     }
-
-    void getInfo() {
-        getDbsInfo();
-        // Assuming CONNECT_TO_AND_GET is a macro or function you have defined elsewhere
-        CONNECT_TO_AND_GET(host, port, username, password, dbName);
-    }
 };
+
 #endif
