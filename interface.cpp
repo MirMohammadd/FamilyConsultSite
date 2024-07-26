@@ -2,6 +2,7 @@
 #include <sqlite3.h>
 #include <config.hpp>
 #include <dbs.hpp>
+#include <cstring>
 
 #define INSERTED
 
