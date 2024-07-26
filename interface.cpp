@@ -1,6 +1,8 @@
 #include <iostream>
 #include <sqlite3.h>
 
+#define INSERTED
+
 int main() {
     sqlite3* db;
     char* errMsg = 0;
@@ -15,7 +17,7 @@ int main() {
         std::cout << "Opened database successfully" << std::endl;
     }
 
-    const char* sqlCreateTable = "CREATE TABLE items(id INTEGER PRIMARY KEY, name TEXT);";
+    const char* sqlCreateTable = "CREATE TABLE IF NOT EXISTS items(id INTEGER PRIMARY KEY, name TEXT);";
     rc = sqlite3_exec(db, sqlCreateTable, 0, 0, &errMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
@@ -24,11 +26,13 @@ int main() {
         std::cout << "Table created successfully" << std::endl;
     }
 
+    #ifndef INSERTED
     const char* sqlInsert1 = "INSERT INTO items(name) VALUES('Name 1');";
     const char* sqlInsert2 = "INSERT INTO items(name) VALUES('Name 2');";
-
     sqlite3_exec(db, sqlInsert1, 0, 0, &errMsg);
     sqlite3_exec(db, sqlInsert2, 0, 0, &errMsg);
+
+    #endif
 
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
