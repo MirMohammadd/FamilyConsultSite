@@ -1,0 +1,28 @@
+name: CI/CD For SQLITE handler
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: linux-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Update and upgrade
+      run: sudo apt get install && sudo apt upgrade
+      
+    - name: Install make 
+      run: sudo install make
+
+    - name: Build project
+      run: |
+        make 
+        ./interface
