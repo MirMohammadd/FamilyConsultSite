@@ -12,7 +12,7 @@ void sqliteEnter(){
 }
 
 int main(int argc,char* argv[]) {
-
+    std::cout<<Logo;
     for (int i = 0; i < argc; ++i){
         if (strcmp("--manual",argv[i]) == 0){
             Database interface;
