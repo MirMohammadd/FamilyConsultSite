@@ -11,11 +11,15 @@ void sqliteEnter(){
     interface.connect();
 }
 
-int main() {
-    #ifdef USE_MANUAL
-    Database interface;
-    interface.createTable("user",2,false);
-    #endif
+int main(int argc,char* argv[]) {
+
+    for (int i = 0; i < argc; ++i){
+        if (strcmp("--manual",argv[i]) == 0){
+            Database interface;
+            interface.createTable("user",2,false);
+        }
+    }
+
     #ifdef SQLITE
     sqliteEnter();
     #endif  
@@ -90,4 +94,6 @@ int main() {
 
     sqlite3_close(db);
     return 0;
+
+
 }
