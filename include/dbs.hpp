@@ -66,11 +66,15 @@ class Database{
 
         }
 
-        void createTable(std::string table){
+        void createTable(std::string table,int colNumbers){
             connect();
+            for (int i =0 ; i < colNumbers;i++){
+                std::string colName;
+            }
             std::string sqlCreateTable = "CREATE TABLE IF NOT EXISTS " + table + " (id INTEGER PRIMARY KEY, name TEXT);";
             rc = sqlite3_exec(db, sqlCreateTable.c_str(), 0, 0, &errMsg);
         }
+
 
 };
 
