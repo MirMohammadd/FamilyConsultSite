@@ -37,7 +37,7 @@ class Database{
 };
 
 namespace DBS{
-    int chooseOptions(){
+    inline int chooseOptions(){
         int result;
         std::cout << "Choose option: " << std::endl;
         std::cout << "1. Create table" << std::endl;
