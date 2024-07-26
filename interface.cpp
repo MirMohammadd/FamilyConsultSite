@@ -14,10 +14,14 @@ void sqliteEnter(){
 
 int main(int argc,char* argv[]) {
     std::cout<<Logo;
+    Database interface;
     for (int i = 0; i < argc; ++i){
         if (strcmp("--manual",argv[i]) == 0){
-            Database interface;
             interface.createTable("user",2,false);
+        }
+
+        if (strcmp("--auto",argv[i]) == 0){
+            interface.setStatementManually();
         }
     }
 

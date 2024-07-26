@@ -127,6 +127,39 @@ class Database{
             }
         }
     }
+
+    private:
+            static int callback(void *data, int argc, char **argv, char **azColName) {
+        for (int i = 0; i < argc; i++) {
+            std::cout << azColName[i] << " = " << (argv[i] ? argv[i] : "NULL") << "\t";
+        }
+            std::cout << std::endl;
+                return 0;
+        }
+
+    public:
+
+        void setStatementManually(){
+        connect(); // Ensure the database is connected
+
+        std::string sqlStatement;
+
+        std::cout << "Enter SQL statement: ";
+        std::getline(std::cin, sqlStatement);
+
+        char *errMsg = nullptr;
+        int rc = sqlite3_exec(db, sqlStatement.c_str(), callback, 0, &errMsg);
+        if (rc != SQLITE_OK) {
+            std::cerr << "SQL error: " << errMsg << std::endl;
+            sqlite3_free(errMsg);
+        } else {
+            std::cout << "Statement executed successfully." << std::endl;
+        }
+
+        // Close the database connection
+        sqlite3_close(db);
+        }
+
 };
 
 #endif
