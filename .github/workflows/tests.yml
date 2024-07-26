@@ -17,7 +17,8 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Update and upgrade
-      run: sudo apt get install && sudo apt upgrade
+      run: sudo apt update && sudo apt upgrade
+
       
     - name: Install make 
       run: sudo install make
