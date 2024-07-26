@@ -1,10 +1,18 @@
 #include <iostream>
 #include <sqlite3.h>
 #include <config.hpp>
+#include <dbs.hpp>
 
 #define INSERTED
 
+
+void sqliteEnter(){
+    Database interface;
+    interface.connect();
+}
+
 int main() {
+    sqliteEnter();
     sqlite3* db;
     char* errMsg = 0;
     int rc;
