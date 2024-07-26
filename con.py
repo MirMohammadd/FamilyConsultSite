@@ -1,31 +1,28 @@
+#!/usr/bin/env /Applications/MAMP/Library/bin/python
+
 import mysql.connector
 
-# Replace these with your actual MySQL credentials
 config = {
-    'user': 'your_username',
-    'password': 'your_password',
-    'host': 'localhost',
-    'port': 3306,
-    'database': 'your_database'
+  'user': 'root',
+  'password': 'root',
+  'host': 'localhost',
+  'unix_socket': '/Applications/MAMP/tmp/mysql/mysql.sock',
+  'database': 'DailyConsults',
+  'raise_on_warnings': True
 }
 
-try:
-    # Establish the connection
-    connection = mysql.connector.connect(**config)
-    
-    # Create a cursor object using the connection
-    cursor = connection.cursor()
-    
-    # Example query
-    cursor.execute("SELECT DATABASE();")
-    db = cursor.fetchone()
-    print("You're connected to database:", db)
+cnx = mysql.connector.connect(**config)
 
-except mysql.connector.Error as err:
-    print("Error:", err)
+cursor = cnx.cursor(dictionary=True)
 
-finally:
-    if connection.is_connected():
-        cursor.close()
-        connection.close()
-        print("Connection closed.")
+cursor.execute("USE DailyConsults;")
+cursor.execute("INSERT INTO Appointments VALUES ('jack', 'doe', 'jack@com', '2012-04-30')")
+cursor.execute("SELECT * FROM Appointments;")
+
+results = cursor.fetchall()
+
+for row in results:
+    print(row)
+
+cnx.close()
+
