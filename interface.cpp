@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sqlite3.h>
+#include <config.hpp>
 
 #define INSERTED
 
@@ -8,7 +9,7 @@ int main() {
     char* errMsg = 0;
     int rc;
 
-    rc = sqlite3_open("/Applications/MAMP/db/sqlite/mydatabase.db", &db);
+    rc = sqlite3_open(PATH, &db);
 
     if (rc) {
         std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;

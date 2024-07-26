@@ -4,7 +4,7 @@
 CXX = g++
 
 # Compilation flags
-CXXFLAGS = -std=c++11 -Wall -I/usr/include
+CXXFLAGS = -std=c++11 -Wall -I/usr/include -I include
 
 # Linker flags for SQLite3
 LDFLAGS = -lsqlite3
