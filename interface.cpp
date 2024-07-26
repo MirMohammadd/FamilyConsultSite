@@ -12,7 +12,9 @@ void sqliteEnter(){
 }
 
 int main() {
+    #ifdef SQLITE
     sqliteEnter();
+    #endif  
     sqlite3* db;
     char* errMsg = 0;
     int rc;
