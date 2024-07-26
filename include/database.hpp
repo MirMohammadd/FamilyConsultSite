@@ -37,7 +37,7 @@ public:
             getDbsInfo();
 
             // Establish the session
-            mysqlx::Session sess(host, 33060, username, password);
+            mysqlx::Session sess(host, port, username, password);
 
             // Select the schema (database)
             mysqlx::Schema db = sess.getSchema(dbName);
@@ -64,7 +64,7 @@ public:
     void getInfo() {
         getDbsInfo();
         // Assuming CONNECT_TO_AND_GET is a macro or function you have defined elsewhere
-        CONNECT_TO_AND_GET(host, 33060, username, password, dbName);
+        CONNECT_TO_AND_GET(host, port, username, password, dbName);
     }
 };
 #endif
