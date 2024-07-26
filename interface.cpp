@@ -12,6 +12,8 @@ void sqliteEnter(){
 }
 
 int main() {
+    Database interface;
+    interface.createTable("users");
     #ifdef SQLITE
     sqliteEnter();
     #endif  

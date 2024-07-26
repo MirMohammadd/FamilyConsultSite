@@ -27,9 +27,10 @@ class Database{
 
             if (rc){
             std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
+            throw DBSOpeningExc();
             }
             else{
-                throw DBSOpeningExc();
+                std::cout<<"Could open database successfully"<<std::endl;
             }
         }
 
@@ -65,10 +66,10 @@ class Database{
 
         }
 
-        void createTable(){
+        void createTable(std::string table){
             connect();
-            const char* sqlCreateTable = "CREATE TABLE IF NOT EXISTS items(id INTEGER PRIMARY KEY, name TEXT);";
-            rc = sqlite3_exec(db, sqlCreateTable, 0, 0, &errMsg);
+            std::string sqlCreateTable = "CREATE TABLE IF NOT EXISTS " + table + " (id INTEGER PRIMARY KEY, name TEXT);";
+            rc = sqlite3_exec(db, sqlCreateTable.c_str(), 0, 0, &errMsg);
         }
 
 };
