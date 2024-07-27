@@ -17,6 +17,15 @@ make
 ./interface --auto
 ```
 
+
+# How to use Mysql python interface
+
+```
+python3 -m pip install -r requirements.txt
+python3 sqlhandler.py
+```
+
+
 # Screenshots 
 
 
