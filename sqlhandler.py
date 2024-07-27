@@ -1,5 +1,7 @@
-import mysql.connector
-
+try:
+    import mysql.connector
+except:
+    pass
 class DatabaseConnector:
     def __init__(self, user, password, host, unix_socket, database, raise_on_warnings=True):
         self.config = {
